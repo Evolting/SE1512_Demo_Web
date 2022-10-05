@@ -1,0 +1,36 @@
+﻿@page "{Id}"
+
+@using WebApplication1.DataAccess
+@model WebApplication1.Pages.Orders.OrderDetailModel
+@{
+    Layout = "_Layout";
+}
+
+@{
+    var orderDetails = (List<OrderDetail>) ViewData["orderDetails"];
+    var Id = (int) ViewData["Id"];
+}
+
+<div>
+    <h2>Order Id: @Id</h2>
+    <table style="border: 2px solid black; padding: 10px">
+        <thead>
+            <tr>
+                <th>Product Id</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var od in orderDetails)
+            {
+                <tr>
+                        <td>@od.ProductId</td>
+                        <td>@od.Quantity</td>
+                        <td>@od.UnitPrice</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a href="javascript:history.back()">Go Back</a>
+</div>

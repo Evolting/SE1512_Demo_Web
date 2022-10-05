@@ -1,0 +1,42 @@
+﻿@page
+@model WebApplication1.Pages.Products.ListModel
+@using WebApplication1.DataAccess
+@{
+    Layout = "_Layout";
+}
+
+@{
+    var products = (List<Product>) ViewData["products"];
+}
+
+<div>
+    <a asp-area="" asp-page="/Products/Add">Add Product</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Supplier</th>
+                <th>Unit Price</th>
+                <th>Discontinued</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var p in products){
+                <tr>
+                    <td>@p.ProductId</td>
+                    <td>@p.ProductName</td>
+                    <td>@p.Category.CategoryName</td>
+                    <td>@p.Supplier.CompanyName</td>
+                    <td>@p.UnitPrice</td>
+                    <td>@p.Discontinued</td>
+                    <td><a asp-area="" asp-page="/Products/Edit" asp-route-id="@p.ProductId">Edit</a></td>
+                    <td><a asp-area="" asp-page="/Products/Delete" asp-route-id="@p.ProductId">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

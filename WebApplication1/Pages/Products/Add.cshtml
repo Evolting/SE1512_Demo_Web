@@ -1,0 +1,57 @@
+﻿@page
+@model WebApplication1.Pages.Products.AddModel
+@using WebApplication1.DataAccess
+@{
+    Layout = "_Layout";
+}
+
+@{
+    var suppliers = (List<Supplier>)ViewData["suppliers"];
+    var categories = (List<Category>)ViewData["categories"];
+}
+
+<div>
+    <form method="post" class="m-2 p-3 bg-light">
+      <div class="form-group m-2">
+          <label for="product.productName">Product Name</label>
+          <input type="text" name="product.productName" />
+      </div>
+      <div class="form-group m-2">
+          <label for="product.supplierID">Supplier</label>
+          <select name="product.supplierID">
+            @foreach(var s in suppliers){
+                <option value="@s.SupplierId">@s.CompanyName</option>
+            }
+          </select>
+      </div>
+      <div class="form-group m-2">
+          <label for="product.categoryID">Category</label>
+          <select name="product.categoryID">
+                @foreach (var c in categories)
+                {
+                    <option value="@c.CategoryId">@c.CategoryName</option>
+                }
+          </select>
+      </div>
+      <div class="form-group m-2">
+          <label for="product.quantityPerUnit">Quantity Per Unit</label>
+          <input type="text" name="product.quantityPerUnit" />
+      </div>
+      <div class="form-group m-2">
+          <label for="product.unitPrice">Unit Price</label>
+          <input type="text" name="product.unitPrice" />
+      </div>
+      <div class="form-group m-2">
+          <label for="product.unitsInStock">Unit In Stock</label>
+          <input type="number" name="product.unitsInStock" value=0 />
+      </div>
+      <div class="form-group m-2">
+          <label for="product.discontinued">Discontinued</label>
+          <input type="radio" name="product.discontinued" value=true />Yes
+          <input type="radio" name="product.discontinued" value=false checked/>No
+      </div>
+      <div class="form-group m-2">
+          <input class="btn btn-danger" type="submit" value="Add Product" />
+      </div>
+    </form>
+</div>

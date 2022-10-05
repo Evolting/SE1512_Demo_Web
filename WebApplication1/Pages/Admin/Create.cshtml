@@ -1,0 +1,45 @@
+﻿@page "{handler=}"
+
+@model WebApplication1.Pages.Admin.CreateModel
+@using WebApplication1.DataAccess
+@{
+}
+
+<div>
+    <form method="post" asp-page-handler="Create">
+        <input type="text" name="student.id" />
+        <input type="text" name="student.name" />
+        <input type="radio" name="student.gender" value="Male" />Male
+        <input type="radio" name="student.gender" value="Female" />Female
+        <select name="student.major">
+            <option value="SE">SE</option>
+            <option value="IA">IA</option>
+            <option value="GD">GD</option>
+        </select>
+        <input type="submit" value="Submit"/>
+    </form>
+</div>
+
+@{
+    var student = (Student)ViewData["curStudent"];
+}
+
+<div>
+    Submitted Student<br/>
+    <div>
+        @if (student != null)
+        {
+            <div>
+                @student.ToString()
+            </div>
+        }
+        else
+        {
+            <div>Null</div>
+        }
+    </div>
+</div>
+
+<form method="post" asp-page-handler="Edit">
+    <input type="submit" value="Submit"/>
+</form>

@@ -1,0 +1,14 @@
+﻿@page "{Id=0}/{Name=student}"
+@model WebApplication1.Pages.Admin.ListModel
+@{
+}
+
+@{
+    Layout = "_Layout";
+}
+
+<div>
+    Admin/List
+    @ViewData["id"] - @ViewData["name"]
+    @Model.Id
+</div>
