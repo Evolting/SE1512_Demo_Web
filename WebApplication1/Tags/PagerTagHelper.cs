@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+using Newtonsoft.Json.Linq;
 
 namespace WebApplication1.Tags
 {
@@ -18,9 +19,9 @@ namespace WebApplication1.Tags
             output.Attributes.SetAttribute("class", "something");
             for (int i = 1; i <= TotalPage; i++)
                 if (i == CurrentPage)
-                    output.Content.AppendHtml($"<a style='margin:4px;' class='{ActiveClass}' href='{Url}/{i}'>{i}</a>");
+                    output.Content.AppendHtml($"<input type='submit' name='pageNumber' class='{ActiveClass}' value={i} />");
                 else
-                    output.Content.AppendHtml($"<a style='margin:4px;' href={Url}/{i}>{i}</a>");
+                    output.Content.AppendHtml($"<input type='submit' name='pageNumber' value={i} />");
         }
     }
 }
