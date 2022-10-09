@@ -12,6 +12,10 @@
 
 <div>
     <form method="post" class="m-2 p-3 bg-light">
+      <div class="form-group m-2" hidden>
+          <label for="product.productName">Product Name</label>
+          <input type="text" name="product.productId" value="@product.ProductId"/>
+      </div>
       <div class="form-group m-2">
           <label for="product.productName">Product Name</label>
           <input type="text" name="product.productName" value="@product.ProductName"/>

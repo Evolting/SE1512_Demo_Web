@@ -1,42 +1,89 @@
-﻿@page
+﻿@page "{PageNumber=0}"
+
 @model WebApplication1.Pages.Products.ListModel
 @using WebApplication1.DataAccess
+@addTagHelper *, WebApplication1
 @{
     Layout = "_Layout";
 }
 
 @{
     var products = (List<Product>) ViewData["products"];
+    var categories = (List<Category>)ViewData["categories"];
+    var selectCate = (List<Boolean>)ViewData["selectCate"];
+
+    var priceFrom = (String)ViewData["priceFrom"];
+    var priceTo = (String)ViewData["priceTo"];
+
+    var query = "";
+    if ((String) ViewData["searchName"] != null){
+        query = (String)ViewData["searchName"];
+    }
 }
 
-<div>
-    <a asp-area="" asp-page="/Products/Add">Add Product</a>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Supplier</th>
-                <th>Unit Price</th>
-                <th>Discontinued</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var p in products){
+<style>
+    .active{
+        font-size: large;
+        font-weight: bold;
+        color: darkblue;
+    }
+</style>
+
+<div class="row">
+    <div class="filter-container col-2">
+        <form method="post" asp-page-handler="filter">
+            <div class="form-group m-2">
+                <label for="categoryId">Filter</label>
+                @foreach (var c in categories)
+                {
+                        <br/>
+                            <input type="checkbox" name="category" value="@c.CategoryId" @(selectCate[categories.IndexOf(c)] ? "checked" : "")/>@c.CategoryName
+                }
+            </div>
+            <div class="form-group m-2">
+                <label for="searchName">Search</label>
+                <input type="text" name="searchName" placeholder="Product Name" value="@query"/><br/>
+            </div>
+            <div class="form-group m-2">
+                <label for="searchName">Price</label>
+                <input class="w-40" type="text" name="priceFrom" placeholder="From" value="@priceFrom" />
+                <input class="w-40" type="text" name="priceTo" placeholder="To" value="@priceTo" />
+            </div>
+            <input class="btn btn-primary" type="submit" value="Filter" />
+        </form>
+    </div>
+    <div class="col-10">
+        <a asp-area="" asp-page="/Products/Add">Add Product</a>
+        <table>
+            <thead>
                 <tr>
-                    <td>@p.ProductId</td>
-                    <td>@p.ProductName</td>
-                    <td>@p.Category.CategoryName</td>
-                    <td>@p.Supplier.CompanyName</td>
-                    <td>@p.UnitPrice</td>
-                    <td>@p.Discontinued</td>
-                    <td><a asp-area="" asp-page="/Products/Edit" asp-route-id="@p.ProductId">Edit</a></td>
-                    <td><a asp-area="" asp-page="/Products/Delete" asp-route-id="@p.ProductId">Delete</a></td>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Supplier</th>
+                    <th>Unit Price</th>
+                    <th>Discontinued</th>
+                    <th></th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach(var p in products){
+                    <tr>
+                        <td>@p.ProductId</td>
+                        <td><a asp-area="" asp-page="/Products/Detail" asp-route-productId="@p.ProductId">@p.ProductName</a></td>
+                        <td>@p.Category.CategoryName</td>
+                        <td>@p.Supplier.CompanyName</td>
+                        <td>@p.UnitPrice</td>
+                        <td>@p.Discontinued</td>
+                        <td><a asp-area="" asp-page="/Products/Edit" asp-route-id="@p.ProductId">Edit</a></td>
+                        <td><a asp-area="" asp-page="/Products/Delete" asp-route-id="@p.ProductId">Delete</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <pager total-page='@((int)ViewData["TotalPage"])' active-class="active" 
+                       url='/Products/List' current-page='@((int) ViewData["CurrentPage"])'>
+        </pager> 
+    </div>
 </div>
