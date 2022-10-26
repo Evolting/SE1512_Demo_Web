@@ -42,17 +42,20 @@
                             </td>
                             <td data-th="Price">$@item.Product.UnitPrice</td>
                             <td data-th="Quantity">
-                                    <input type="number" class="form-control form-control-lg text-center" value="@item.Quantity">
+                                <form method="post" asp-page-handler="ChangeQuantity">
+                                    <input type="text" name="Id" value="@item.Id" hidden/>
+                                    <input type="number" min="1" onchange="this.form.submit()" name="amount" class="form-control form-control-lg text-center" value="@item.Quantity">
+                                </form>
                             </td>
-                            <td class="actions" data-th="">
-                                <div class="text-right">
-                                    <button class="btn btn-danger border-secondary btn-md mb-2">
-                                        Remove
-                                    </button>
-                                </div>
-                            </td>
-
                             <td data-th="Price">$@(item.Product.UnitPrice*item.Quantity)</td>
+                            <td class="actions" data-th="">
+                                <form method="post" asp-page-handler="Delete">
+                                    <input type="text" name="Id" value="@item.Id" hidden/>
+                                    <div class="text-right"> 
+                                        <input type="submit" class="btn btn-danger border-secondary btn-md mb-2" value="Remove"/>
+                                    </div>
+                                </form>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -65,7 +68,7 @@
     </div>
     <div class="row mt-4 d-flex align-items-center">
         <div class="col-sm-6 order-md-2 text-right">
-            <a href="#" class="btn btn-primary mb-4 btn-lg pl-5 pr-5">Checkout</a>
+            <a href="/Cart/Checkout" class="btn btn-primary mb-4 btn-lg pl-5 pr-5">Checkout</a>
         </div>
         <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
             <a class="nav-link text-dark" asp-area="" asp-page="/Products/List">
